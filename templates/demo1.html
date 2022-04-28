@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/rawdatastyle.css">
+
+    <link rel="stylesheet" href="../static/css/vendors.css">
+    <style>
+        body {
+            --color-text: #0f070a;
+            --color-bg: #fabd69;
+            --color-bg-2: #f98e4a;
+            --color-link: #317bd0;
+            --color-link-hover: #317bd0;
+            background: radial-gradient( ellipse at 100% 0, #fed96f 0, var(--color-bg) 50%, var(--color-bg-2) 115%);
+        }
+        
+        .container .row input {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .container .row select {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="demo2.html">UI1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="demo1.html">UI2</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container" style="margin-top: 50px;">
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="Search" id="herosearch">
+            </div>
+            <div class="col">
+                <select class="form-select" id="Herolist">
+                    <option value="0">Select Hero</option>
+                    
+                  </select>
+            </div>
+
+            <div class="col" style="text-align: center;">
+                <button type="button" class="btn btn-light" style="width:70%;" id="findinfo">Find</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table class="table" style="margin-top: 80px;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 5%;">#</th>
+                    <th scope="col">aliens</th>
+                    <th scope="col">predators
+                    </th>
+                    <th scope="col">d&d_beholder
+                    </th>
+                    <th scope="col">d&d_devil
+                    </th>
+                    <th scope="col">d&d_mind_flayer
+
+                    </th>
+                    <th scope="col">d&d_vampire
+
+                    </th>
+                    <th scope="col">d&d_red_dragon
+
+                    </th>
+                    <th scope="col">d&d_hill_giant
+
+                    </th>
+                    <th scope="col">d&d_treant
+
+                    </th>
+                    <th scope="col">d&d_werewolf
+
+                    </th>
+                    <th scope="col">d&d_yuan-ti
+
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tablelist">
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- invader -->
+    <script type="text/html" id="heroscript">
+        <option value="0">Select Hero</option>
+        {{each}}
+        <option value="{{$value}}">{{$value}}</option>
+        {{/each}}
+    </script>
+    <!-- country -->
+    <script type="text/html" id="countrylist">
+        <option value="0">Select Country</option>
+        {{each}}
+        <option value="{{$value}}">{{$value}}</option>
+        {{/each}}
+    </script>
+    <!-- table -->
+    <script type="text/html" id="tableinfo">
+        {{each}}
+        <tr id="tr_{{$value.QuarterName}}">
+            <th scope="row">{{$value.QuarterName}}</th>
+
+            <td id="td_0"></td>
+            <td id="td_1"></td>
+            <td id="td_2"></td>
+            <td id="td_3"></td>
+            <td id="td_4"></td>
+            <td id="td_5"></td>
+            <td id="td_6"></td>
+            <td id="td_7"></td>
+            <td id="td_8"></td>
+            <td id="td_9"></td>
+            <td id="td_10"></td>
+            <a href="chart.html"></a>
+
+
+        </tr>
+        {{/each}}
+    </script>
+
+    <script type="text/javascript" src="../static/js/jQuery.js"></script>
+    <script type="text/javascript" src="../static/js/vendors.js"></script>
+    <script type="text/javascript" src="../static/js/base2.js"></script>
+    <script type="text/javascript" src="../static/js/template-web.js"></script>
+
+    <script type="text/javascript" src="../static/js/popper.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="../static/js/xlsx.full.min.js"></script>
+    <script>
+        /* set up XMLHttpRequest */
+        var url = "./Avengers_vs_Invaders_Challenge.xlsx";
+        var oReq = new XMLHttpRequest();
+
+        oReq.open("GET", url, true);
+        oReq.responseType = "arraybuffer";
+
+        oReq.onload = function(e) {
+            var arraybuffer = oReq.response;
+
+            /* convert data to binary string */
+            var data = new Uint8Array(arraybuffer);
+            var arr = new Array();
+            for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+            var bstr = arr.join("");
+
+            /* Call XLSX */
+            var workbook = XLSX.read(bstr, {
+                type: "binary"
+            });
+            const sheet2JSONOpts = {
+                /** Default value for null/undefined values */
+                defval: '' //给defval赋值为空的字符串
+            }
+            var first_sheet_name = workbook.SheetNames[0]
+            var worksheet1 = workbook.Sheets[first_sheet_name];
+            var info1 = XLSX.utils.sheet_to_json(worksheet1, sheet2JSONOpts);
+
+            var second_sheet_name = workbook.SheetNames[1]
+            var worksheet2 = workbook.Sheets[second_sheet_name];
+            var info2 = XLSX.utils.sheet_to_json(worksheet2, sheet2JSONOpts);
+
+            //对Contacts表数据进行处理 由于XLSX读取数据转换JSON后出现错误 需要重新调整
+            var changeIndex = []
+            for (let i = 0; i < info2.length; i++) {
+                if (info2[i]['DE-Headquarter'].indexOf('Headquarter') != -1) {
+                    changeIndex.push(i)
+                }
+            }
+            for (let i = 0; i < changeIndex.length; i++) {
+                var QuarterName = info2[changeIndex[i]]['DE-Headquarter']
+                if (i + 1 < changeIndex.length) {
+                    for (let j = changeIndex[i]; j < changeIndex[i + 1]; j++) {
+                        info2[j]["invader"] = info2[j]['DE-Headquarter']
+                        info2[j]["QuarterName"] = QuarterName
+                        delete info2[j]['DE-Headquarter']
+                    }
+                }
+            }
+            for (let i = 0; i < changeIndex[0]; i++) {
+                var QuarterName = 'DE-Headquarter'
+                info2[i]["invader"] = info2[i]['DE-Headquarter']
+                info2[i]["QuarterName"] = QuarterName
+                delete info2[i]['DE-Headquarter']
+            }
+            const LastQuarterName = info2[changeIndex[changeIndex.length - 1]]['DE-Headquarter']
+            for (let i = changeIndex[changeIndex.length - 1]; i < info2.length; i++) {
+
+                info2[i]["invader"] = info2[i]['DE-Headquarter']
+                info2[i]["QuarterName"] = LastQuarterName
+                delete info2[i]['DE-Headquarter']
+            }
+            changeIndex.sort((a, b) => b - a)
+
+            for (let i = 0; i < changeIndex.length; i++) {
+
+                info2.splice(changeIndex[i], 1)
+            }
+
+
+
+
+
+            //进一步处理info2数据 
+            var info2list = []
+            for (let i = 0; i < info2.length; i++) {
+                if (info2[i]["attack_role"] != '') {
+                    info2list.push({
+                        QuarterName: info2[i]["QuarterName"],
+                        Rolename: "attack_role",
+                        Invader: info2[i]["invader"],
+                        Email: info2[i]["attack_role"] + "@avengers.com",
+                        Heroname: info2[i]["attack_role"],
+                    })
+                }
+                if (info2[i]["defense_role"] != '') {
+                    info2list.push({
+                        QuarterName: info2[i]["QuarterName"],
+                        Rolename: "defense_role",
+                        Invader: info2[i]["invader"],
+                        Email: info2[i]["defense_role"] + "@avengers.com",
+                        Heroname: info2[i]["defense_role"],
+                    })
+                }
+                if (info2[i]["healing_role"] != '') {
+                    info2list.push({
+                        QuarterName: info2[i]["QuarterName"],
+                        Rolename: "healing_role",
+                        Invader: info2[i]["invader"],
+                        Email: info2[i]["healing_role"] + "@avengers.com",
+                        Heroname: info2[i]["healing_role"],
+                    })
+                }
+            }
+            //填充Herolist 初始化
+            var heredataArr = []
+            for (let i = 0; i < info2list.length; i++) {
+
+                heredataArr.push(info2list[i].Heroname)
+            }
+            heredataArr = [...new Set(heredataArr)]
+
+
+            var HeroHtmlStr = template("heroscript", heredataArr);
+
+            $("#Herolist").html(HeroHtmlStr);
+
+
+
+            //按钮监听 查阅数据
+            $('#findinfo').on('click', function() {
+
+                // 输入框
+                var filter1 = $('#herosearch').val().trim()
+                    //Hero
+                var filter2 = $('#Herolist option:selected').val()
+
+                if (filter1 == '' && filter2 == '0') {
+                    return
+                }
+
+                var valid_data_1 = []
+                if (filter1 != '') {
+                    filter2 = $('#Herolist option[value=0]').prop("selected", "selected")
+
+                    for (let i = 0; i < info2.length; i++) {
+                        for (let key in info2[i]) {
+
+                            if (info2[i][key] == filter1) {
+                                info2[i]["Heroname"] = filter1
+                                valid_data_1.push(info2[i])
+                                break
+                            }
+                        }
+
+                    }
+                } else {
+                    for (let i = 0; i < info2.length; i++) {
+                        for (let key in info2[i]) {
+
+                            if (info2[i][key] == filter2) {
+                                info2[i]["Heroname"] = filter2
+                                valid_data_1.push(info2[i])
+                                break
+                            }
+                        }
+
+                    }
+                }
+
+                //---------验证属于哪一类
+                var classifiedinfo = []
+                for (let i = 0; i < valid_data_1.length; i++) {
+                    //--attack
+                    let bool1 = false
+                        //-defense
+                    let bool2 = false
+                        //- healing
+                    let bool3 = false
+
+                    var heronameforcheck = valid_data_1[i]["Heroname"]
+
+
+                    if (valid_data_1[i].attack_role == heronameforcheck) {
+                        bool1 = true
+                    }
+                    if (valid_data_1[i].defense_role == heronameforcheck) {
+                        bool2 = true
+                    }
+                    if (valid_data_1[i].healing_role == heronameforcheck) {
+                        bool3 = true
+                    }
+                    //--------创建数据
+                    if (bool1 == true && bool2 == false && bool3 == false) {
+                        classifiedinfo.push({
+                            QuarterName: valid_data_1[i].QuarterName,
+                            Level: "A",
+                            Heroname: valid_data_1[i].Heroname,
+                            Invader: valid_data_1[i].invader,
+                        })
+
+
+                    } else if (bool1 == false && bool2 == true && bool3 == false) {
+                        classifiedinfo.push({
+                            QuarterName: valid_data_1[i].QuarterName,
+                            Level: "D",
+                            Heroname: valid_data_1[i].Heroname,
+                            Invader: valid_data_1[i].invader,
+                        })
+                    } else if (bool1 == false && bool2 == false && bool3 == true) {
+                        classifiedinfo.push({
+                            QuarterName: valid_data_1[i].QuarterName,
+                            Level: "H",
+                            Heroname: valid_data_1[i].Heroname,
+                            Invader: valid_data_1[i].invader,
+                        })
+                    } else if (bool1 == true && bool2 == true && bool3 == false) {
+                        classifiedinfo.push({
+                            QuarterName: valid_data_1[i].QuarterName,
+                            Level: "AD",
+                            Heroname: valid_data_1[i].Heroname,
+                            Invader: valid_data_1[i].invader,
+                        })
+                    } else if (bool1 == true && bool2 == false && bool3 == true) {
+                        classifiedinfo.push({
+                            QuarterName: valid_data_1[i].QuarterName,
+                            Level: "AH",
+                            Heroname: valid_data_1[i].Heroname,
+                            Invader: valid_data_1[i].invader,
+                        })
+                    } else if (bool1 == false && bool2 == true && bool3 == true) {
+                        classifiedinfo.push({
+                            QuarterName: valid_data_1[i].QuarterName,
+                            Level: "DH",
+                            Heroname: valid_data_1[i].Heroname,
+                            Invader: valid_data_1[i].invader,
+                        })
+                    } else if (bool1 == true && bool2 == true && bool3 == true) {
+                        classifiedinfo.push({
+                            QuarterName: valid_data_1[i].QuarterName,
+                            Level: "ADH",
+                            Heroname: valid_data_1[i].Heroname,
+                            Invader: valid_data_1[i].invader,
+                        })
+                    }
+
+
+
+
+
+                }
+                //查阅hero所在的quater
+                var quaterarr = []
+                for (let i = 0; i < classifiedinfo.length; i++) {
+                    quaterarr.push(classifiedinfo[i].QuarterName)
+
+                }
+                quaterarr = [...new Set(quaterarr)]
+
+                //更改数据结构 以quater为单位
+                var finalData = []
+                for (let i = 0; i < quaterarr.length; i++) {
+                    var quaternametocheck = quaterarr[i]
+                    var LevelArr = []
+                    for (let j = 0; j < classifiedinfo.length; j++) {
+                        if (classifiedinfo[j].QuarterName == quaternametocheck) {
+                            LevelArr.push({
+                                Invader: classifiedinfo[j].Invader,
+                                Level: classifiedinfo[j].Level,
+                            })
+                        }
+
+                    }
+                    finalData.push({
+                        LevelArr: LevelArr,
+                        QuarterName: quaternametocheck,
+                    })
+
+                }
+                console.log(finalData);
+                var tablehtmlstr = template('tableinfo', finalData)
+                $("#tablelist").html(tablehtmlstr);
+                var invadersname = ["aliens", "predators", "d&d_beholder", "d&d_devil", "d&d_mind_flayer", "d&d_vampire",
+                    "d&d_red_dragon", "d&d_hill_giant", "d&d_treant", "d&d_werewolf", "d&d_yuan-ti"
+                ]
+
+                for (let i = 0; i < finalData.length; i++) {
+                    for (let j = 0; j < finalData[i].LevelArr.length; j++) {
+                        var index = invadersname.indexOf(finalData[i].LevelArr[j].Invader)
+                        var tdhtmlStr = `<a href="./chart.html?quatername=${finalData[i].QuarterName}&invader=${finalData[i].LevelArr[j].Invader}">${finalData[i].LevelArr[j].Level}</a>`
+                            // var value = finalData[i].LevelArr[j].Level
+                        $(`#tr_${finalData[i].QuarterName} #td_${index}`).html(tdhtmlStr)
+                    }
+
+                }
+
+            })
+
+
+        }
+
+        oReq.send();
+    </script>
+
+</body>
+
+</html>
